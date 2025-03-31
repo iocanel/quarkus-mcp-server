@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.mcp</groupId>
-            <artifactId>quarkus-mcp-server-core-deployment</artifactId>
+            <artifactId>quarkus-mcp-server-stdio-deployment</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

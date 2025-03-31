@@ -112,7 +112,7 @@ public class ServerFeaturesIT {
 
         assertTool(tools.getJsonObject(0), "codeservicecommand", null, schema -> {
             JsonObject properties = schema.getJsonObject("properties");
-            assertEquals(2, properties.size());
+            assertEquals(1, properties.size());
             JsonObject valueProperty = properties.getJsonObject("language");
             assertNotNull(valueProperty);
             assertEquals("string", valueProperty.getString("type"));
