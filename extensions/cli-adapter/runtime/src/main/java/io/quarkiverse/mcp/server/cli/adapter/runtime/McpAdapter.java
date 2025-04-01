@@ -8,9 +8,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import io.quarkiverse.mcp.server.runtime.config.McpRuntimeConfig;
+import io.quarkiverse.mcp.server.stdio.runtime.StdioMcpMessageHandler;
+import io.quarkus.arc.Arc;
+import io.quarkus.runtime.Quarkus;
 import picocli.CommandLine;
+import picocli.CommandLine.ExitCode;
 
 public class McpAdapter {
+
+    public static Integer startMcp() {
+        PrintStream stdout = System.out;
+        try {
+            McpRuntimeConfig mcpRuntimeConfig = Arc.container().instance(McpRuntimeConfig.class).get();
+            StdioMcpMessageHandler mcpMessageHandler = Arc.container().instance(StdioMcpMessageHandler.class).get();
+            System.setOut(new PrintStream(OutputStream.nullOutputStream()));
+            mcpMessageHandler.initialize(stdout, mcpRuntimeConfig);
+            Quarkus.waitForExit();
+        } catch (Exception e) {
+            return ExitCode.SOFTWARE;
+        } finally {
+            System.setOut(stdout);
+        }
+        return CommandLine.ExitCode.OK;
+    }
 
     public static String callCommand(Object command, Map<?, ?> opts, List<?> args) {
         PrintStream originalOut = System.out;
